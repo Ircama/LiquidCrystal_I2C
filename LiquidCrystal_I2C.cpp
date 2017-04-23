@@ -1,3 +1,4 @@
+// Version 1.1.3
 // Based on the work by DFRobot
 
 #include "LiquidCrystal_I2C.h"
@@ -52,13 +53,24 @@ LiquidCrystal_I2C::LiquidCrystal_I2C(uint8_t lcd_Addr,uint8_t lcd_cols,uint8_t l
   _backlightval = LCD_NOBACKLIGHT;
 }
 
-void LiquidCrystal_I2C::init(){
+void LiquidCrystal_I2C::init(void){
 	init_priv();
 }
 
-void LiquidCrystal_I2C::init_priv()
+void LiquidCrystal_I2C::init_priv(void)
 {
 	Wire.begin();
+	_displayfunction = LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS;
+	begin(_cols, _rows);  
+}
+
+void LiquidCrystal_I2C::init(uint8_t sda, uint8_t scl){
+	init_priv(sda, scl);
+}
+
+void LiquidCrystal_I2C::init_priv(uint8_t sda, uint8_t scl)
+{
+	Wire.begin(sda, scl);
 	_displayfunction = LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS;
 	begin(_cols, _rows);  
 }
@@ -234,7 +246,9 @@ void LiquidCrystal_I2C::backlight(void) {
 	expanderWrite(0);
 }
 
-
+bool LiquidCrystal_I2C::getBacklight() {
+  return _backlightval == LCD_BACKLIGHT;
+}
 
 /*********** mid level commands, for sending data/cmds */
 
@@ -320,5 +334,3 @@ uint8_t LiquidCrystal_I2C::init_bargraph(uint8_t graphtype){return 0;}
 void LiquidCrystal_I2C::draw_horizontal_graph(uint8_t row, uint8_t column, uint8_t len,  uint8_t pixel_col_end){}
 void LiquidCrystal_I2C::draw_vertical_graph(uint8_t row, uint8_t column, uint8_t len,  uint8_t pixel_row_end){}
 void LiquidCrystal_I2C::setContrast(uint8_t new_val){}
-
-	

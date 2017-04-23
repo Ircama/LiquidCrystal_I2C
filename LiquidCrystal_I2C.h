@@ -74,6 +74,7 @@ public:
   void shiftDecrement();
   void noBacklight();
   void backlight();
+  bool getBacklight();
   void autoscroll();
   void noAutoscroll(); 
   void createChar(uint8_t, uint8_t[]);
@@ -87,7 +88,8 @@ public:
   virtual void write(uint8_t);
 #endif
   void command(uint8_t);
-  void init();
+  void init(void);
+  void init(uint8_t sda, uint8_t scl);
 
 ////compatibility API function aliases
 void blink_on();						// alias for blink()
@@ -111,7 +113,8 @@ void draw_vertical_graph(uint8_t row, uint8_t column, uint8_t len,  uint8_t pixe
 	 
 
 private:
-  void init_priv();
+  void init_priv(void);
+  void init_priv(uint8_t sda, uint8_t scl);
   void send(uint8_t, uint8_t);
   void write4bits(uint8_t);
   void expanderWrite(uint8_t);
